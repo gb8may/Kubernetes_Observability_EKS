@@ -1,5 +1,10 @@
-# eks_monitoring
-EKS monitoring with Prometheus and Grafana
+
+# Kubernetes EKS monitoring with Prometheus and Grafana via Helm
+
+Pre-requisites:
+- eksctl
+- kubectl
+- helm
 
 Helm version: 3.1.2
 ```
