@@ -9,7 +9,9 @@ Pre-requisites:
 Helm version: 3.1.2
 ```
 export DESIRED_VERSION=v3.1.2
-curl -L https://git.io/get_helm.sh
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.shh
 ```
 
 Cluster deploy
@@ -19,5 +21,5 @@ eksctl create cluster -f eks_cluster.yaml
 
 Monitoring deploy
 ```
-bash monitoring-deploy.sh
+./monitoring-deploy.sh
 ```
