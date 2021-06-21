@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: grafana-secret
+  namespace: monitoring
+data:
+  username: YWRtaW4=
+  password: cm9vdA==

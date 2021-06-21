@@ -1,0 +1,20 @@
+# eks_cluster.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: service-monitoring-cluster
+  region: us-east-1
+  version: "1.19"
+managedNodeGroups:
+  - name: monitoring-ng
+    instanceType: t2.medium
+    minSize: 1
+    maxSize: 2
+    desiredCapacity: 1 
+    volumeSize: 20
+    labels: {role: worker}
+    tags:
+      nodegroup-role: worker
+
