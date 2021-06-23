@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: monitoring
+  labels:
+    {{ .Values.labelKey }}: 'dashboards'
+data:
+{{- if .Values.dashboards.backup.enabled }}
+  backup-dashboard.json: |-
+    {{- .Files.Get "backup-dashboard.json" | nindent 4 }}
+{{- end }}

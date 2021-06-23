@@ -39,7 +39,7 @@ sum by (kube_cluster_name, kube_namespace_name, workload_type, workload_name) (s
 Pod restarts by namespace
 A high pod restart rate usually means CrashLoopBackOff
 
-sum by(kube_cluster_name, kube_namespace_name)(changes(kube_pod_status_ready{condition="true"}[$__interval])
+sum by(kube_cluster_name, kube_namespace_name)(changes(kube_pod_status_ready{condition="true"}[$__interval]))
 
 --
 Top 5 memory consuming containers

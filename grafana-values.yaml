@@ -17,3 +17,16 @@ admin:
   existingSecret: "grafana-secret"
   userKey: username
   passwordKey: password
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: default
+        orgId: 1
+        folder: ""
+        type: file
+        disableDeletion: false
+        editable: false
+        options:
+          path: /var/lib/grafana/dashboards/default
