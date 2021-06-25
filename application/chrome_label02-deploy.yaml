@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chrome-2-deployment
+  labels:
+    app: chrome
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chrome
+  template:
+    metadata:
+      labels:
+        app: chrome
+        execution-id: test_02
+    spec:
+      containers:
+      - name: chrome
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+

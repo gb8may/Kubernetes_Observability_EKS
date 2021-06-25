@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firefox-2-deployment
+  labels:
+    app: firefox
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: firefox
+  template:
+    metadata:
+      labels:
+        app: firefox
+        execution-id: test_02
+    spec:
+      containers:
+      - name: firefox
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
