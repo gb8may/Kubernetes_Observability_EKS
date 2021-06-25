@@ -1,0 +1,15 @@
+exporters:
+  kube-state-metrics:
+    enabled: false
+kube-state-metrics:
+  serviceMonitor:
+    enabled: false
+prometheus:
+  additionalScrapeConfigs:
+    enabled: true
+    type: internal
+    internal:
+      jobList:
+        - job_name: 'kube-state-metrics'
+          static_configs:
+            - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']

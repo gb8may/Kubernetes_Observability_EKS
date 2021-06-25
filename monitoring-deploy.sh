@@ -3,6 +3,9 @@
 # Creating Namespace and Secret
 kubectl apply -f grafana-monitoring.yaml
 
+# Deploy kube-state-metrics
+kubectl apply -f ./kube-state-metrics/.
+
 # Install Prometheus and Grafana via Helm
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
