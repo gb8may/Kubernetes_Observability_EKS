@@ -9,12 +9,12 @@ metadata:
   version: "1.19"
 managedNodeGroups:
   - name: monitoring-ng
-    instanceType: t2.medium
-    minSize: 1
-    maxSize: 2
-    desiredCapacity: 1 
+    instanceType: t3.medium
+    minSize: 2
+    maxSize: 4
+    desiredCapacity: 2 
     volumeSize: 20
-    labels: {role: worker}
-    tags:
-      nodegroup-role: worker
+    labels: {
+      execution-id: test-01
+    }
 

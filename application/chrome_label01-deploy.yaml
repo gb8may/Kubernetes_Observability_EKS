@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: chrome
-        execution-id: test_01
+        execution-id: test-01
     spec:
       containers:
       - name: chrome

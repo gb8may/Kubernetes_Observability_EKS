@@ -9,7 +9,7 @@ kubectl apply -f ./kube-state-metrics/.
 # Install Prometheus and Grafana via Helm
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
-helm install prometheus bitnami/kube-prometheus -n monitoring
+helm install prometheus -n monitoring -f prometheus-values.yaml bitnami/kube-prometheus
 helm install grafana -n monitoring -f grafana-values.yaml bitnami/grafana
 
 # Creating Configmap
@@ -26,4 +26,4 @@ curl "http://admin:root@${LB}/api/datasources" -X POST -H 'Content-Type: applica
 # Configuring Dashboard
 PW=$(echo "cm9vdA==" | base64 --decode)
 
-curl -i -u admin:${PW} -H "Content-Type:application/json;charset=UTF-8" -X POST http://a311dfd02d8d1456eb097ceba2462372-419225353.us-east-1.elb.amazonaws.com/api/dashboards/db -d @dashboard.json
+curl -i -u admin:${PW} -H "Content-Type:application/json;charset=UTF-8" -X POST http://${LB}/api/dashboards/db -d @dashboard.json
