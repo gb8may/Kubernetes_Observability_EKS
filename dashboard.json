@@ -21,6 +21,7 @@
   "panels": [
     {
       "datasource": "Prometheus",
+      "description": "Current nodes without label",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -49,66 +50,6 @@
         "x": 0,
         "y": 0
       },
-      "id": 2,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.9",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum by (kube_namespace_name) (kube_pod_info)",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Pods per Cluster",
-      "type": "stat"
-    },
-    {
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 3,
-        "x": 2,
-        "y": 0
-      },
       "id": 8,
       "options": {
         "colorMode": "value",
@@ -129,13 +70,13 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(kube_node_status_condition{condition=\"Ready\", status=\"true\"}==1)",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) sum(kube_node_status_condition{condition=\"Ready\", status=\"true\"}==1)\n  )\n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Nodes per Cluster",
+      "title": "Nodes",
       "type": "stat"
     },
     {
@@ -165,8 +106,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 3,
-        "x": 5,
+        "w": 2,
+        "x": 2,
         "y": 0
       },
       "id": 62,
@@ -189,13 +130,137 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (kube_pod_status_phase{job=\"kube-state-metrics\", namespace=\"selenium\", phase=\"Running\", label_execution_id=\"test_01\"})",
+          "expr": "sum (kube_pod_status_phase{job=\"kube-state-metrics\", namespace=\"selenium\", phase=\"Running\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Total Pods Running",
+      "title": "Running Pods",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 2,
+        "x": 4,
+        "y": 0
+      },
+      "id": 46,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.9",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum (kube_pod_status_phase{job=\"kube-state-metrics\", namespace=\"selenium\", phase=\"Pending\"})",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Pending Pods",
+      "type": "stat"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 2,
+        "x": 6,
+        "y": 0
+      },
+      "id": 40,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.9",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum (kube_pod_status_phase{job=\"kube-state-metrics\", namespace=\"selenium\", phase=\"Failed\"})",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Failed Pods",
       "type": "stat"
     },
     {
@@ -317,125 +382,6 @@
       "type": "stat"
     },
     {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 3,
-        "x": 12,
-        "y": 0
-      },
-      "id": 46,
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "text": {}
-      },
-      "pluginVersion": "7.5.9",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum (rate(container_memory_max_usage_bytes{label_execution_id=\"test_01\"}[1m]))",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Container MEM Max Usage",
-      "type": "gauge"
-    },
-    {
-      "cacheTimeout": null,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 3,
-        "x": 15,
-        "y": 0
-      },
-      "id": 40,
-      "links": [],
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "text": {}
-      },
-      "pluginVersion": "7.5.9",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum (rate(container_memory_failures_total{label_execution_id=\"test_01\"}[1m]))",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Container - MEM Failure",
-      "type": "gauge"
-    },
-    {
       "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
@@ -463,7 +409,7 @@
       "gridPos": {
         "h": 5,
         "w": 3,
-        "x": 18,
+        "x": 12,
         "y": 0
       },
       "id": 44,
@@ -521,7 +467,7 @@
       "gridPos": {
         "h": 5,
         "w": 3,
-        "x": 21,
+        "x": 15,
         "y": 0
       },
       "id": 26,
@@ -557,7 +503,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -567,13 +513,13 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 6,
+        "h": 5,
         "w": 6,
-        "x": 0,
-        "y": 5
+        "x": 18,
+        "y": 0
       },
       "hiddenSeries": false,
-      "id": 10,
+      "id": 50,
       "legend": {
         "avg": false,
         "current": false,
@@ -601,7 +547,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((rate(container_cpu_usage_seconds_total{container!=\"POD\",container!=\"\"}[5m]) - on (namespace,pod,container) group_left avg by (namespace,pod,container)(kube_pod_container_resource_requests{resource=\"cpu\"})) * -1 >0)",
+          "expr": "rate(node_network_transmit_fifo_total[1m])",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -611,7 +557,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Cluster CPU Idle",
+      "title": "Cluster Network Rate",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -653,7 +599,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -663,11 +609,11 @@
       "gridPos": {
         "h": 6,
         "w": 6,
-        "x": 6,
+        "x": 0,
         "y": 5
       },
       "hiddenSeries": false,
-      "id": 12,
+      "id": 57,
       "legend": {
         "avg": false,
         "current": false,
@@ -695,8 +641,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((container_memory_usage_bytes{container!=\"POD\",container!=\"\"} - on (namespace,pod,container) avg by (namespace,pod,container)(kube_pod_container_resource_requests{resource=\"memory\"})) * -1 >0 ) / (1024*1024*1024)",
-          "instant": false,
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) container_memory_usage_bytes{namespace=\"selenium\", container=\"chrome\"}\n  ) \n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -706,7 +651,101 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Cluster MEM Idle",
+      "title": "Chrome MEM Usage",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 5
+      },
+      "hiddenSeries": false,
+      "id": 54,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.9",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) rate(container_cpu_load_average_10s{namespace=\"selenium\", container=\"chrome\"}[1m])\n  )\n  by (label_execution_id)",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Chrome CPU Average",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -790,7 +829,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(container_memory_max_usage_bytes{pod=~\"firefox-.*\", label_execution_id=\"test_01\"}) by (pod)",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) container_memory_usage_bytes{namespace=\"selenium\", container=\"firefox\"}\n  ) \n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -843,6 +882,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "description": "Chrome",
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -856,7 +896,7 @@
         "y": 5
       },
       "hiddenSeries": false,
-      "id": 54,
+      "id": 64,
       "legend": {
         "avg": false,
         "current": false,
@@ -884,7 +924,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (pod)(rate(container_cpu_load_average_10s{pod=~\"firefox-.*\", label_execution_id=\"test_01\"}[1m]))",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) rate(container_cpu_load_average_10s{namespace=\"selenium\", container=\"firefox\"}[1m])\n  )\n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -981,7 +1021,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(container_cpu_load_average_10s{namespace=\"default\"}[1m])",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) container_memory_max_usage_bytes{namespace=\"selenium\", container=\"chrome\"}\n  ) \n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -991,7 +1031,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Container - CPU Load Average",
+      "title": "Chrome MEM Max Usage",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1035,7 +1075,9 @@
       "dashes": false,
       "datasource": "Prometheus",
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "unit": "short"
+        },
         "overrides": []
       },
       "fill": 1,
@@ -1047,7 +1089,7 @@
         "y": 11
       },
       "hiddenSeries": false,
-      "id": 38,
+      "id": 10,
       "legend": {
         "avg": false,
         "current": false,
@@ -1075,7 +1117,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by(pod_name) (rate(container_cpu_usage_seconds_total{namespace=\"selenium\"}[1m]))",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) rate(container_network_transmit_bytes_total{namespace=\"selenium\", container=\"chrome\"}[1m])\n  )\n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1085,199 +1127,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Selenium NS CPU Usage",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 12,
-        "y": 11
-      },
-      "hiddenSeries": false,
-      "id": 57,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.9",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(container_memory_max_usage_bytes{pod=~\"chrome-.*\", label_execution_id=\"test_01\"}) by (pod)",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Chrome MEM Usage",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 18,
-        "y": 11
-      },
-      "hiddenSeries": false,
-      "id": 52,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.9",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum by (pod)(rate(container_cpu_load_average_10s{pod=~\"chrome-.*\", label_execution_id=\"test_01\"}[1m]))",
-          "interval": "",
-          "legendFormat": "",
-          "panelId": 36,
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Chrome CPU Average",
+      "title": "Chrome Network Bytes Transmited",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1332,8 +1182,8 @@
       "gridPos": {
         "h": 6,
         "w": 6,
-        "x": 0,
-        "y": 17
+        "x": 12,
+        "y": 11
       },
       "hiddenSeries": false,
       "id": 34,
@@ -1364,7 +1214,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(container_cpu_usage_seconds_total{namespace=\"selenium\"}[1m])",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) container_memory_max_usage_bytes{namespace=\"selenium\", container=\"firefox\"}\n  ) \n  by (label_execution_id)",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -1375,7 +1225,102 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Container CPU Usage - Selenium",
+      "title": "Firefox MEM Max Usage",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.9",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) rate(container_network_transmit_bytes_total{namespace=\"selenium\", container=\"firefox\"}[1m])\n  )\n  by (label_execution_id)",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Firefox Network Bytes Transmited",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1429,11 +1374,11 @@
       "gridPos": {
         "h": 6,
         "w": 6,
-        "x": 6,
+        "x": 0,
         "y": 17
       },
       "hiddenSeries": false,
-      "id": 50,
+      "id": 52,
       "legend": {
         "avg": false,
         "current": false,
@@ -1461,7 +1406,105 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(node_network_transmit_fifo_total[1m])",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) rate(container_cpu_usage_seconds_total{namespace=\"selenium\", container=\"chrome\"}[1m])\n  )\n  by (label_execution_id)",
+          "interval": "",
+          "legendFormat": "",
+          "panelId": 36,
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Chrome CPU Usage",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 17
+      },
+      "hiddenSeries": false,
+      "id": 32,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.9",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) rate(container_memory_failures_total{namespace=\"selenium\", container=\"chrome\"}[1m])\n  )\n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1471,7 +1514,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Cluster Network Rate",
+      "title": "Chrome MEM Failure",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1555,7 +1598,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum((rate(container_cpu_usage_seconds_total{container!=\"POD\",container!=\"\"}[1m]) - on (namespace,pod,container) group_left avg by (namespace,pod,container)(kube_pod_container_resource_requests{resource=\"memory\"})) * -1 >0)",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) rate(container_cpu_usage_seconds_total{namespace=\"selenium\", container=\"firefox\"}[1m])\n  )\n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1565,7 +1608,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "Firefox CPU Usage",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1603,125 +1646,98 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
       "datasource": "Prometheus",
       "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
+        "defaults": {},
         "overrides": []
       },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
-        "w": 3,
+        "w": 6,
         "x": 18,
         "y": 17
       },
-      "id": 32,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
+      "hiddenSeries": false,
+      "id": 38,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
       },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
       "pluginVersion": "7.5.9",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (kube_pod_labels{label_execution_id=\"test_01\"})",
+          "expr": "sum(\n  kube_pod_labels{label_execution_id=~\"test_01\"} * on (pod) group_right(label_execution_id) rate(container_memory_failures_total{namespace=\"selenium\", container=\"firefox\"}[1m])\n  )\n  by (label_execution_id)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
+      "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Execution_Id - test_01",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
+      "title": "Firefox MEM Failure",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
       },
-      "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 21,
-        "y": 17
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "id": 64,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.9",
-      "targets": [
+      "yaxes": [
         {
-          "exemplar": true,
-          "expr": "sum (kube_pod_labels{label_execution_id=\"test_01\"})",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "title": "Execution_Id - Teste_02",
-      "type": "stat"
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
   "refresh": "5s",
@@ -1731,32 +1747,7 @@
     "templated"
   ],
   "templating": {
-    "list": [
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": null,
-        "definition": "",
-        "description": null,
-        "error": null,
-        "hide": 0,
-        "includeAll": false,
-        "label": null,
-        "multi": false,
-        "name": "query0",
-        "options": [],
-        "query": "",
-        "refresh": 0,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      }
-    ]
+    "list": []
   },
   "time": {
     "from": "now-5m",
@@ -1764,8 +1755,8 @@
   },
   "timepicker": {},
   "timezone": "America/Toronto",
-  "title": "Load Test - Test 01",
+  "title": "Load Test - test_01",
   "uid": "7w4JC6R7z",
-  "version": 2
+  "version": 3
   }
 }
