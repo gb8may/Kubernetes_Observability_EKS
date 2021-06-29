@@ -26,4 +26,7 @@ curl "http://admin:root@${LB}/api/datasources" -X POST -H 'Content-Type: applica
 # Configuring Dashboard
 PW=$(echo "cm9vdA==" | base64 --decode)
 
-curl -i -u admin:${PW} -H "Content-Type:application/json;charset=UTF-8" -X POST http://${LB}/api/dashboards/db -d @dashboard.json
+curl -i -u admin:${PW} -H "Content-Type:application/json;charset=UTF-8" -X POST http://${LB}/api/dashboards/db -d @dashboard.json 
+
+echo ""
+echo "Your dashboard is UP at http://${LB}/d/7w4JC6R7z/load-test-test-01"

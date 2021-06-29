@@ -189,7 +189,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (kube_pod_status_phase{job=\"kube-state-metrics\", namespace=\"selenium\", phase=\"Running\", label_execution_id=\"test_01\"})",
+          "expr": "sum (kube_pod_status_phase{job=\"kube-state-metrics\", namespace=\"selenium\", phase=\"Running\", label_execution_id=\"{test_number}\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -248,7 +248,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (kube_pod_labels{pod=~\"chrome-.*\", label_execution_id=\"test_01\"})",
+          "expr": "sum (kube_pod_labels{pod=~\"chrome-.*\", label_execution_id=\"{test_number}\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -307,7 +307,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (kube_pod_labels{pod=~\"firefox-.*\", label_execution_id=\"test_01\"})",
+          "expr": "sum (kube_pod_labels{pod=~\"firefox-.*\", label_execution_id=\"{test_number}\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -363,7 +363,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (rate(container_memory_max_usage_bytes{label_execution_id=\"test_01\"}[1m]))",
+          "expr": "sum (rate(container_memory_max_usage_bytes{label_execution_id=\"{test_number}\"}[1m]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -423,7 +423,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (rate(container_memory_failures_total{label_execution_id=\"test_01\"}[1m]))",
+          "expr": "sum (rate(container_memory_failures_total{label_execution_id=\"{test_number}\"}[1m]))",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -790,7 +790,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(container_memory_max_usage_bytes{pod=~\"firefox-.*\", label_execution_id=\"test_01\"}) by (pod)",
+          "expr": "sum(container_memory_max_usage_bytes{pod=~\"firefox-.*\", label_execution_id=\"{test_number}\"}) by (pod)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -884,7 +884,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (pod)(rate(container_cpu_load_average_10s{pod=~\"firefox-.*\", label_execution_id=\"test_01\"}[1m]))",
+          "expr": "sum by (pod)(rate(container_cpu_load_average_10s{pod=~\"firefox-.*\", label_execution_id=\"{test_number}\"}[1m]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1169,7 +1169,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(container_memory_max_usage_bytes{pod=~\"chrome-.*\", label_execution_id=\"test_01\"}) by (pod)",
+          "expr": "sum(container_memory_max_usage_bytes{pod=~\"chrome-.*\", label_execution_id=\"{test_number}\"}) by (pod)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1265,7 +1265,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (pod)(rate(container_cpu_load_average_10s{pod=~\"chrome-.*\", label_execution_id=\"test_01\"}[1m]))",
+          "expr": "sum by (pod)(rate(container_cpu_load_average_10s{pod=~\"chrome-.*\", label_execution_id=\"{test_number}\"}[1m]))",
           "interval": "",
           "legendFormat": "",
           "panelId": 36,
@@ -1653,7 +1653,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (kube_pod_labels{label_execution_id=\"test_01\"})",
+          "expr": "sum (kube_pod_labels{label_execution_id=\"{test_number}\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1661,7 +1661,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Execution_Id - test_01",
+      "title": "Execution_Id - {test_number}",
       "type": "stat"
     },
     {
@@ -1714,7 +1714,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum (kube_pod_labels{label_execution_id=\"test_01\"})",
+          "expr": "sum (kube_pod_labels{label_execution_id=\"{test_number}\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1764,7 +1764,7 @@
   },
   "timepicker": {},
   "timezone": "America/Toronto",
-  "title": "Load Test - Test 01",
+  "title": "Load Test - {test_number}",
   "uid": "7w4JC6R7z",
   "version": 2
   }

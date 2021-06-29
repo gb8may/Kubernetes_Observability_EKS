@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: firefox
-        execution-id: test-01
+        execution-id: test_01
     spec:
       containers:
       - name: firefox
