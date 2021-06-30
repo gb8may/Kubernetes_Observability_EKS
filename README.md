@@ -33,3 +33,7 @@ Monitoring deploy
 ```
 
 ###### <i>There's a directory called Application and Dashboards; If you need to monitoring by labels, just deploy application via kubectl and apply application dashboard.</i>
+```
+export test_number=test_01
+cat dashboards/application-dashboard-template.json | sed "s/{test_number}/${test_number}/g" > application-dashboard.json
+```
