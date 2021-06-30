@@ -32,4 +32,4 @@ Monitoring deploy
 ./monitoring-deploy.sh
 ```
 
-<b><i>Test</b></i>
+<i>There's a directory called Application and Dashboards; If you need to monitoring by labels, just deploy application via kubectl and apply application dashboard.</i>
