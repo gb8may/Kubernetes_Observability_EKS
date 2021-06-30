@@ -14,4 +14,4 @@ managedNodeGroups:
     maxSize: 4
     desiredCapacity: 2 
     volumeSize: 20
-
+    labels: {execution_id: test_01}

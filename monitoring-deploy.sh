@@ -60,5 +60,6 @@ curl "http://admin:${PW}@${LB}/api/datasources" -X POST -H 'Content-Type: applic
 # Configuring Dashboard
 curl -i -u admin:${PW} -H "Content-Type:application/json;charset=UTF-8" -X POST http://${LB}/api/dashboards/db -d @dashboard.json
 
-echo ""
+clear
+
 echo "Your dashboard is UP at http://${LB}/d/7w4JC6R7z"
