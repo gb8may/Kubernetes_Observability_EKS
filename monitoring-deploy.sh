@@ -58,7 +58,7 @@ done
 curl "http://admin:${PW}@${LB}/api/datasources" -X POST -H 'Content-Type: application/json;charset=UTF-8' --data-binary '{"name":"Prometheus","type":"prometheus","url":"http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090","access":"proxy","isDefault":true}'
 
 # Configuring Dashboard
-curl -i -u admin:${PW} -H "Content-Type:application/json;charset=UTF-8" -X POST http://${LB}/api/dashboards/db -d @dashboard.json
+curl -i -u admin:${PW} -H "Content-Type:application/json;charset=UTF-8" -X POST http://${LB}/api/dashboards/db -d @dashboards/dashboard.json
 
 clear
 
