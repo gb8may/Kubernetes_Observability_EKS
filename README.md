@@ -3,8 +3,6 @@
 
 ![EKS_Graf_Prom](https://user-images.githubusercontent.com/35708820/123995280-268f8e80-d99c-11eb-8b86-d636275f897d.png)
 
-![AWS](https://img.shields.io/badge/-AWS-232F3E?&logo=amazon%20aws&logoColor=FFFFFF) ![Kubernetes](https://img.shields.io/badge/-Kubernetes-326CE5?&logo=kubernetes&logoColor=FFFFFF) ![Grafana](https://img.shields.io/badge/-Grafana-F46800?&logo=grafana&logoColor=FFFFFF) ![Prometheus](https://img.shields.io/badge/-Prometheus-E6522C?&logo=prometheus&logoColor=FFFFFF) ![Helm](https://img.shields.io/badge/-Helm-0F1689?&logo=helm&logoColor=FFFFFF)
-
 Pre-requisites:
 - eksctl
 - kubectl
