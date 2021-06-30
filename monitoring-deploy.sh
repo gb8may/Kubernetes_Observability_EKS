@@ -62,4 +62,4 @@ curl -i -u admin:${PW} -H "Content-Type:application/json;charset=UTF-8" -X POST 
 
 clear
 
-echo "Your dashboard is UP at http://${LB}/d/7w4JC6R7z"
+echo "Your dashboard is UP at http://${LB}/d/inID2Jz7z"
