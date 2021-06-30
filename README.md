@@ -1,6 +1,8 @@
 
 # Kubernetes EKS monitoring with Prometheus and Grafana via Helm
 
+![AWS](https://img.shields.io/badge/-AWS-232F3E?&logo=amazon%20aws&logoColor=FFFFFF) ![Kubernetes](https://img.shields.io/badge/-Kubernetes-326CE5?&logo=kubernetes&logoColor=FFFFFF) ![Grafana](https://img.shields.io/badge/-Grafana-F46800?&logo=grafana&logoColor=FFFFFF) ![Prometheus](https://img.shields.io/badge/-Prometheus-E6522C?&logo=prometheus&logoColor=FFFFFF)
+
 Pre-requisites:
 - eksctl
 - kubectl
