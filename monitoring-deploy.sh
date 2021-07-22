@@ -15,7 +15,7 @@ helm install prometheus -n monitoring -f prometheus-values.yaml bitnami/kube-pro
 cont=0
 max=10
 while [ "`kubectl -n monitoring get pods |grep prometheus-prometheus-kube-prometheus-prometheus-0 |grep '2/2' |grep Running 2>/dev/null`" = "" -a $cont -le $max ] ; do
-    sleep 5s
+    sleep 10s
     cont=`echo "$cont+1"|bc`
     echo -n '.'
 done
@@ -29,7 +29,7 @@ helm install grafana -n monitoring -f grafana-values.yaml bitnami/grafana
 cont=0
 max=10
 while [ "`kubectl -n monitoring get pods |grep grafana |grep '1/1' |grep Running 2>/dev/null`" = "" -a $cont -le $max ] ; do
-    sleep 5s
+    sleep 10s
     cont=`echo "$cont+1"|bc`
     echo -n '.'
 done
@@ -50,7 +50,7 @@ export LB=$(kubectl -n monitoring get svc grafana -o json |jq .status.loadBalanc
 cont=0
 max=10
 while [ "`curl -o - http://${LB} 2>/dev/null`" = "" -a $cont -le $max ] ; do
-    sleep 5s
+    sleep 10s
     cont=`echo "$cont+1"|bc`
     echo -n '.'
 done
